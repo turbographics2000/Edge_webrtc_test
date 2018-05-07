@@ -32,7 +32,7 @@ function setupCall(call) {
 async function getStream() {
     console.log('getStream()');
     let stream = null;
-    if(localVeiw.srcObject) {
+    if(localView.srcObject) {
         localView.srcObject.getTracks().forEach(track => track.stop());
     }
     if (navigator.userAgent.includes('Edge/17')) {
