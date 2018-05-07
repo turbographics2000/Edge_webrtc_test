@@ -1,4 +1,7 @@
-const peer = new Peer({ key: 'bea1e09a-a7f9-41fb-8700-e6d18ba907bd' });
+const peer = new Peer({
+     key: 'bea1e09a-a7f9-41fb-8700-e6d18ba907bd',
+    iceTransportPolicy: 'relay' 
+});
 peer.on('open', async id => {
     console.log('peer open.');
     myIdDisp.textContent = id;
