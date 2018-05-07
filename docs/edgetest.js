@@ -32,11 +32,11 @@ function setupCall(call) {
 async function getStream() {
     console.log('getStream()');
     let stream = null;
-    // if (navigator.userAgent.includes('Edge/17')) {
-    //     stream = await navigator.getDisplayMedia({ video: true });
-    // } else {
+    if (navigator.userAgent.includes('Edge/17')) {
+        stream = await navigator.getDisplayMedia({ video: true });
+    } else {
          stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    // }
+    }
     localView.srcObject = stream;
     return stream;
 }
