@@ -16,6 +16,7 @@ peer.on('open', async id => {
         if (remoteId) {
             const stream = await getStream();
             localView.srcObject = stream;
+            console.log(`call ${remoteId}`);
             const call = peer.call(remoteId, stream);
             setupCall(call);
         }
