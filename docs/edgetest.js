@@ -26,6 +26,7 @@ peer.on('open', async id => {
 function setupCall(call) {
     console.log('setupCall()');
     call.on('stream', stream => {
+        console.log('call on stream');
         remoteView.srcObject = stream;
     });
 }
