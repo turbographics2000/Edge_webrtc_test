@@ -1,6 +1,7 @@
 const peer = new Peer({
     key: 'bea1e09a-a7f9-41fb-8700-e6d18ba907bd',
-    iceTransportPolicy: 'relay'
+    iceTransportPolicy: 'relay',
+    debug: 3
 });
 peer.on('open', async id => {
     console.log('peer open.');
