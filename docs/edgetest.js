@@ -32,8 +32,8 @@ function setupCall(call) {
 async function getStream() {
     console.log('getStream()');
     let stream = null;
-    if(localStream.srcObject) {
-        localStream.srcObject.getTracks().forEach(track => track.stop());
+    if(localVeiw.srcObject) {
+        localView.srcObject.getTracks().forEach(track => track.stop());
     }
     if (navigator.userAgent.includes('Edge/17')) {
         stream = await navigator.getDisplayMedia({ video: true });
