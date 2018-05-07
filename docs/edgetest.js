@@ -5,6 +5,7 @@ peer.on('open', async id => {
     peer.on('call', async call => {
         setupCall(call);
         const stream = await getStream();
+        localView.srcObject = stream;
         call.answer(stream);
     });
 
