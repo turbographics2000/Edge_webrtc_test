@@ -1,6 +1,6 @@
 const peer = new Peer({
-     key: 'bea1e09a-a7f9-41fb-8700-e6d18ba907bd',
-    iceTransportPolicy: 'relay' 
+    key: 'bea1e09a-a7f9-41fb-8700-e6d18ba907bd',
+    iceTransportPolicy: 'relay'
 });
 peer.on('open', async id => {
     console.log('peer open.');
@@ -35,13 +35,13 @@ function setupCall(call) {
 async function getStream() {
     console.log('getStream()');
     let stream = null;
-    if(localView.srcObject) {
+    if (localView.srcObject) {
         localView.srcObject.getTracks().forEach(track => track.stop());
     }
     if (navigator.userAgent.includes('Edge/17')) {
         stream = await navigator.getDisplayMedia({ video: true });
     } else {
-         stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
     }
     localView.srcObject = stream;
     return stream;
