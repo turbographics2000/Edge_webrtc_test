@@ -7,7 +7,6 @@ peer.on('open', async id => {
         console.log('peer on call.');
         setupCall(call);
         const stream = await getStream();
-        localView.srcObject = stream;
         call.answer(stream);
     });
 
@@ -15,7 +14,6 @@ peer.on('open', async id => {
         const remoteId = peers.filter(peerId => peerId !== id)[0];
         if (remoteId) {
             const stream = await getStream();
-            localView.srcObject = stream;
             console.log(`call ${remoteId}`);
             const call = peer.call(remoteId, stream);
             setupCall(call);
@@ -39,5 +37,6 @@ async function getStream() {
     // } else {
          stream = await navigator.mediaDevices.getUserMedia({ video: true });
     // }
+    localView.srcObject = stream;
     return stream;
 }
