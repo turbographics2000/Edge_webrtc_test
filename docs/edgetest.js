@@ -1,0 +1,36 @@
+const peer = new Peer({ key: 'bea1e09a-a7f9-41fb-8700-e6d18ba907bd' });
+peer.on('open', async id => {
+    myIdDisp.textContent = id;
+
+    peer.on('call', async call => {
+        setupCall(call);
+        const stream = await getStream();
+        call.answer(stream);
+    });
+
+    peer.listAllPeers(async peers => {
+        const remoteId = peers.filter(peerId => peerId !== id)[0];
+        if (remoteId) {
+            const stream = await getStream();
+            localView.srcObject = stream;
+            const call = peer.call(remoteId, stream);
+            setupCall(call);
+        }
+    });
+});
+
+function setupCall(call) {
+    call.on('stream', stream => {
+        remoteView.srcObject = stream;
+    });
+}
+
+async function getStream() {
+    let stream = null;
+    if (navigator.userAgent.includes('Edge/17')) {
+        stream = await navigator.getDisplayMedia({ video: true });
+    } else {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    }
+    return stream;
+}
