@@ -1,4 +1,5 @@
 let pcs = {};
+const iceType = 'vanilla';
 
 const peer = new Peer({
     key: 'bea1e09a-a7f9-41fb-8700-e6d18ba907bd',
@@ -37,12 +38,16 @@ async function initPC(remoteId) {
     });
     pc.onicecandidate = evt => {
         if (evt.candidate) {
-            // console.log('onicecandidate', evt.candidate);
-            // sigEmit('SEND_CANDIDATE', { candidate: evt.candidate }, remoteId);
+            if (iceType === 'trickle') {
+                console.log('onicecandidate', evt.candidate);
+                sigEmit('SEND_CANDIDATE', { candidate: evt.candidate }, remoteId);
+            }
         } else {
-            console.log(pc.localDescription);
-            const candidate = Object.assign({ subType: 'candidate' }, pc.localDescription);
-            sigEmit('SEND_OFFER', { offer: candidate }, remoteId);
+            if (iceType === 'vanilla') {
+                console.log(pc.localDescription);
+                const candidate = Object.assign({ subType: 'candidate' }, pc.localDescription);
+                sigEmit('SEND_OFFER', { offer: candidate }, remoteId);
+            }
         }
     };
     pc.onnegotiationneeded = async evt => {
@@ -73,6 +78,9 @@ async function initPC(remoteId) {
 
 function initSig(sig) {
     sig.on('OFFER', async data => {
+        if (data.subType === 'candidate') {
+            console.log('offer candidate', data);
+        }
         console.log('sig on offer', data);
         const pc = await getOrCreatePC(data.src);
         console.log('setRemoteDescription offer');
