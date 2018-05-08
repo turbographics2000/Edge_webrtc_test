@@ -44,6 +44,7 @@ async function initPC(remoteId) {
     pc.onnegotiationneeded = async evt => {
         console.log('onnegotiationneeded');
         const offer = await pc.createOffer();
+        console.log('setLocalDescription offer');
         await pc.setLocalDescription(offer);
         sigEmit('SEND_OFFER', { offer: pc.localDescription }, remoteId);
     };
