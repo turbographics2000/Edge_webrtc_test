@@ -19,6 +19,7 @@ peer.on('open', async id => {
     peer.listAllPeers(async peers => {
         const remoteId = peers.filter(peerId => peerId !== id)[0];
         if (remoteId) {
+            console.log(`remoteId: ${remoteId}`);
             initPC(remoteId);
             // const stream = await getStream();
             // console.log(`call ${remoteId}`);
@@ -36,10 +37,12 @@ async function initPC(remoteId) {
     });
     pc.onicecandidate = evt => {
         if (evt.candidate) {
+            console.log('onicecandidate', evt.candidate);
             sig.emit('candidate', { type: 'candidate', candidate: evt.candidate });
         }
     };
     pc.onnegotiationneeded = async evt => {
+        console.log('onnegotiationneeded');
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
         sigEmit('offer', { offer: pc.localDescription });
@@ -64,16 +67,18 @@ async function initPC(remoteId) {
 
 function initSig(sig) {
     sig.on('offer', async data => {
-        console.log('sig on offer');
+        console.log('sig on offer', data);
         const pc = getOrCreatePC(data.src);
         await pc.setRemoteDescription(data.offer);
         const answer = await pc.createAnswer();
         sigEmit('answer', {answer});
     });
     sig.on('answer', async data => {
+        console.log('sig on answer', data);
         await pcs[data.src].setRemoteDescription(data.answer);
     });
     sig.on('candidate', async data => {
+        console.log('sig on candidate', data);
         const pc = getOrCreatePC(data.src);
         await pc.addIceCandidate(data.candidate);
     });
@@ -85,6 +90,7 @@ function getOrCreatePC(remoteId) {
 
 function sigEmit(type, data, remoteId) {
     data = { ...data, ...{ src: pcs[remoteId].id, dst: remoteId } };
+    console.log('sigEmit()', type, data);
     peer.socket._io.emit(type, data);
 }
 
