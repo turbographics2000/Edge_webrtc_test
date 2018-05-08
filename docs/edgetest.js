@@ -38,14 +38,14 @@ async function initPC(remoteId) {
     pc.onicecandidate = evt => {
         if (evt.candidate) {
             console.log('onicecandidate', evt.candidate);
-            sig.emit('candidate', { type: 'candidate', candidate: evt.candidate });
+            sig.emit('candidate', { type: 'candidate', candidate: evt.candidate }, remoteId);
         }
     };
     pc.onnegotiationneeded = async evt => {
         console.log('onnegotiationneeded');
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
-        sigEmit('offer', { offer: pc.localDescription });
+        sigEmit('offer', { offer: pc.localDescription }, remoteId);
     };
     pc.ontrack = evt => {
         console.log('ontrack', `${evt.track.kind}Track`);
@@ -71,7 +71,7 @@ function initSig(sig) {
         const pc = getOrCreatePC(data.src);
         await pc.setRemoteDescription(data.offer);
         const answer = await pc.createAnswer();
-        sigEmit('answer', {answer});
+        sigEmit('answer', {answer}, data.src);
     });
     sig.on('answer', async data => {
         console.log('sig on answer', data);
