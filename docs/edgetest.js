@@ -55,6 +55,7 @@ async function initPC(remoteId) {
     }
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        localView.srcObject = stream;
         stream.getTracks().forEach(track => {
             console.log('addTrack', `${track.kind}Track`);
             pc.addTrack(track, stream);
