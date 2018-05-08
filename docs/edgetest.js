@@ -86,7 +86,7 @@ function initSig(sig) {
 }
 
 function getOrCreatePC(remoteId) {
-    return pcs[remoteId] || initPC();
+    return pcs[remoteId] || initPC(remoteId);
 }
 
 function sigEmit(type, data, remoteId) {
