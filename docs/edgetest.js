@@ -40,7 +40,6 @@ async function initPC(remoteId) {
             // console.log('onicecandidate', evt.candidate);
             // sigEmit('SEND_CANDIDATE', { candidate: evt.candidate }, remoteId);
         } else {
-            debugger;
             console.log(pc.localDescription);
             const candidate = Object.assign({ subType: 'candidate' }, pc.localDescription);
             sigEmit('SEND_OFFER', { offer: candidate }, remoteId);
