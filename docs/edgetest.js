@@ -63,16 +63,16 @@ async function initPC(remoteId) {
             remoteView.srcObject = evt.streams[0];
         }
     }
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        localView.srcObject = stream;
-        stream.getTracks().forEach(track => {
-            console.log('addTrack', `${track.kind}Track`);
-            pc.addTrack(track, stream);
-        });
-    } catch (err) {
-        console.log('gUM() error', err);
-    }
+    // try {
+    //     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    //     localView.srcObject = stream;
+    //     stream.getTracks().forEach(track => {
+    //         console.log('addTrack', `${track.kind}Track`);
+    //         pc.addTrack(track, stream);
+    //     });
+    // } catch (err) {
+    //     console.log('gUM() error', err);
+    // }
     return pc;
 }
 
