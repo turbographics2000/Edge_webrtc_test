@@ -46,6 +46,7 @@ async function initPC(remoteId) {
             if (iceType === 'vanilla') {
                 console.log(pc.localDescription);
                 const candidate = Object.assign({ subType: 'candidate' }, pc.localDescription);
+                console.log('send candidate offer');
                 sigEmit('SEND_OFFER', { offer: candidate }, remoteId);
             }
         }
