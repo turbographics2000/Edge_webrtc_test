@@ -67,6 +67,9 @@ async function initPC(remoteId) {
 }
 
 function initSig(sig) {
+    sig.on('OFFER', data => {
+        console.log('OFFER');
+    })
     sig.on('offer', async data => {
         console.log('sig on offer', data);
         const pc = getOrCreatePC(data.src);
