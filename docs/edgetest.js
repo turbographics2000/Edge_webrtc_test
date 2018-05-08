@@ -69,7 +69,7 @@ async function initPC(remoteId) {
 function initSig(sig) {
     sig.on('OFFER', async data => {
         console.log('sig on offer', data);
-        const pc = getOrCreatePC(data.src);
+        const pc = await getOrCreatePC(data.src);
         await pc.setRemoteDescription(data.offer);
         const answer = await pc.createAnswer();
         sigEmit('SEND_ANSEWER', {answer}, data.src);
@@ -80,16 +80,16 @@ function initSig(sig) {
     });
     sig.on('CANDIDATE', async data => {
         console.log('sig on candidate', data);
-        const pc = getOrCreatePC(data.src);
+        const pc = await getOrCreatePC(data.src);
         await pc.addIceCandidate(data.candidate);
     });
 }
 
-function getOrCreatePC(remoteId) {
+async function getOrCreatePC(remoteId) {
     if(pcs[remoteId]) {
         return pcs[remoteId];
     } else {
-        const pc = initPC(remoteId);
+        const pc = await initPC(remoteId);
         console.log(pc);
         return pc;
     }
