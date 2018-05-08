@@ -37,8 +37,13 @@ async function initPC(remoteId) {
     });
     pc.onicecandidate = evt => {
         if (evt.candidate) {
-            console.log('onicecandidate', evt.candidate);
-            sigEmit('SEND_CANDIDATE', { candidate: evt.candidate }, remoteId);
+            // console.log('onicecandidate', evt.candidate);
+            // sigEmit('SEND_CANDIDATE', { candidate: evt.candidate }, remoteId);
+        } else {
+            debugger;
+            console.log(pc.localDescription);
+            const candidate = Object.assign({ subType: 'candidate' }, pc.localDescription);
+            sigEmit('SEND_OFFER', { offer: candidate });
         }
     };
     pc.onnegotiationneeded = async evt => {
@@ -76,7 +81,7 @@ function initSig(sig) {
         const answer = await pc.createAnswer();
         console.log('setLocalDescription answer');
         await pc.setLocalDescription(answer);
-        sigEmit('SEND_ANSEWER', {answer: pc.localDescription}, data.src);
+        sigEmit('SEND_ANSEWER', { answer: pc.localDescription }, data.src);
     });
     sig.on('ANSWER', async data => {
         console.log('sig on answer', data);
@@ -91,7 +96,7 @@ function initSig(sig) {
 }
 
 async function getOrCreatePC(remoteId) {
-    if(pcs[remoteId]) {
+    if (pcs[remoteId]) {
         return pcs[remoteId];
     } else {
         const pc = await initPC(remoteId);
