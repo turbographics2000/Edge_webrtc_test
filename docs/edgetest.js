@@ -71,9 +71,12 @@ function initSig(sig) {
     sig.on('OFFER', async data => {
         console.log('sig on offer', data);
         const pc = await getOrCreatePC(data.src);
+        console.log('setRemoteDescription offer');
         await pc.setRemoteDescription(data.offer);
         const answer = await pc.createAnswer();
-        sigEmit('SEND_ANSEWER', {answer}, data.src);
+        console.log('setLocalDescription answer');
+        await pc.setLocalDescription(answer);
+        sigEmit('SEND_ANSEWER', {answer: pc.localDescription}, data.src);
     });
     sig.on('ANSWER', async data => {
         console.log('sig on answer', data);
