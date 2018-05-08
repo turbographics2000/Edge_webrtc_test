@@ -90,6 +90,7 @@ function getOrCreatePC(remoteId) {
         return pcs[remoteId];
     } else {
         const pc = initPC(remoteId);
+        console.log(pc);
         return pc;
     }
 }
