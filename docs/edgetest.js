@@ -85,7 +85,7 @@ function initSig(sig) {
     sig.on('CANDIDATE', async data => {
         console.log('sig on candidate', data);
         const pc = await getOrCreatePC(data.src);
-        console.log('addIceCandidate', data.candidate);
+        console.log('addIceCandidate', data.src, data.candidate);
         await pc.addIceCandidate(data.candidate);
     });
 }
