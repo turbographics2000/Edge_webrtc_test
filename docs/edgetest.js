@@ -43,7 +43,7 @@ async function initPC(remoteId) {
             debugger;
             console.log(pc.localDescription);
             const candidate = Object.assign({ subType: 'candidate' }, pc.localDescription);
-            sigEmit('SEND_OFFER', { offer: candidate });
+            sigEmit('SEND_OFFER', { offer: candidate }, remoteId);
         }
     };
     pc.onnegotiationneeded = async evt => {
