@@ -38,7 +38,7 @@ async function initPC(remoteId) {
     pc.onicecandidate = evt => {
         if (evt.candidate) {
             console.log('onicecandidate', evt.candidate);
-            sig.emit('candidate', { type: 'candidate', candidate: evt.candidate }, remoteId);
+            sigEmit('candidate', { type: 'candidate', candidate: evt.candidate }, remoteId);
         }
     };
     pc.onnegotiationneeded = async evt => {
