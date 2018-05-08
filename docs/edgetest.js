@@ -67,7 +67,7 @@ async function initPC(remoteId) {
 }
 
 function initSig(sig) {
-    sig.on('OFFER', data => {
+    sig.on('OFFER', async data => {
         console.log('sig on offer', data);
         const pc = getOrCreatePC(data.src);
         await pc.setRemoteDescription(data.offer);
