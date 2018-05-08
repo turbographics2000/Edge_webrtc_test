@@ -1,3 +1,4 @@
+let sig = null;
 const peer = new Peer({
     key: 'bea1e09a-a7f9-41fb-8700-e6d18ba907bd',
     iceTransportPolicy: 'relay',
@@ -6,23 +7,25 @@ const peer = new Peer({
 peer.on('open', async id => {
     console.log('peer open.');
     myIdDisp.textContent = id;
+    sig = peer.socket._io;
+    console.log(`signalingURL: ${sig.io.uri}`);
 
-    peer.on('call', async call => {
-        console.log('peer on call.');
-        setupCall(call);
-        const stream = await getStream();
-        call.answer(stream);
-    });
+    // peer.on('call', async call => {
+    //     console.log('peer on call.');
+    //     setupCall(call);
+    //     const stream = await getStream();
+    //     call.answer(stream);
+    // });
 
-    peer.listAllPeers(async peers => {
-        const remoteId = peers.filter(peerId => peerId !== id)[0];
-        if (remoteId) {
-            const stream = await getStream();
-            console.log(`call ${remoteId}`);
-            const call = peer.call(remoteId, stream);
-            setupCall(call);
-        }
-    });
+    // peer.listAllPeers(async peers => {
+    //     const remoteId = peers.filter(peerId => peerId !== id)[0];
+    //     if (remoteId) {
+    //         const stream = await getStream();
+    //         console.log(`call ${remoteId}`);
+    //         const call = peer.call(remoteId, stream);
+    //         setupCall(call);
+    //     }
+    // });
 });
 
 function setupCall(call) {
